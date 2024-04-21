@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_pectice/3-provider/cart.dart';
+import 'package:provider_pectice/3-provider/state/provder_badge.dart';
 import 'package:provider_pectice/3-provider/state/provider_cart.dart';
 import 'package:provider_pectice/3-provider/store.dart';
 import 'package:provider_pectice/common/bottom_bar.dart';
@@ -26,6 +27,9 @@ class _HomePageState extends State<HomePage> {
           // MultProvider를 사용하기 위해서는 필수로 providers 를 구현해야함
           create: (context) => ProviderCart(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => ProviderBadge(providerCart: context.read()),
+        ),
       ],
       child: Scaffold(
         body: IndexedStack(
@@ -38,12 +42,15 @@ class _HomePageState extends State<HomePage> {
             Cart(),
           ],
         ),
-        bottomNavigationBar: BottomBar(
-          currentIndex: currentIndex,
-          cartTotal: "0",
-          onTap: (index) => setState(() {
-            currentIndex = index;
-          }),
+        bottomNavigationBar: Selector<ProviderBadge, int>(
+          selector: (context, providerBadge) => providerBadge.counter,
+          builder: (context, counter, child) => BottomBar(
+            currentIndex: currentIndex,
+            cartTotal: "$counter",
+            onTap: (index) => setState(() {
+              currentIndex = index;
+            }),
+          ),
         ),
       ),
     );
