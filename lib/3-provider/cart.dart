@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:provider_pectice/3-provider/state/provider_cart.dart';
 import 'package:provider_pectice/common/product.dart';
 import 'package:provider_pectice/common/product_tile.dart';
 
@@ -9,7 +11,9 @@ class Cart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Product> cartProductList = [];
+    final List<Product> cartProductList =
+        context.select<ProviderCart, List<Product>>(
+            (providerCart) => providerCart.cartProductList);
 
     return Scaffold(
       body: cartProductList.isEmpty
@@ -30,7 +34,7 @@ class Cart extends StatelessWidget {
                 return ProductTile(
                   product: product,
                   isInCart: true,
-                  onPressed: (product) {},
+                  onPressed: context.read<ProviderCart>().onProductPressed,
                 );
               },
             ),

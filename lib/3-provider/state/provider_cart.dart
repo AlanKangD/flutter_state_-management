@@ -7,6 +7,7 @@ class ProviderCart with ChangeNotifier {
 
   /// 상품 클릭
   void onProductPressed(Product product) {
+    print("object $cartProductList");
     if (cartProductList.contains(product)) {
       cartProductList.remove(product);
     } else {
