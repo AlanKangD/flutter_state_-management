@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider_pectice/4-riverpod/cart.dart';
+import 'package:provider_pectice/4-riverpod/state/riverpod_badge.dart';
 import 'package:provider_pectice/4-riverpod/store.dart';
 import 'package:provider_pectice/common/bottom_bar.dart';
 
@@ -24,17 +25,19 @@ class _HomePageState extends State<HomePage> {
           children: const [
             /// Store
             Store(),
-      
+
             /// Cart
             Cart(),
           ],
         ),
-        bottomNavigationBar: BottomBar(
-          currentIndex: currentIndex,
-          cartTotal: "0",
-          onTap: (index) => setState(() {
-            currentIndex = index;
-          }),
+        bottomNavigationBar: Consumer(
+          builder: (context, ref, child) => BottomBar(
+            currentIndex: currentIndex,
+            cartTotal: "${ref.watch(badgeProvider)}",
+            onTap: (index) => setState(() {
+              currentIndex = index;
+            }),
+          ),
         ),
       ),
     );
