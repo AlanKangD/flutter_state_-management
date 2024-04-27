@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider_pectice/4-riverpod/state/riverpod_cart.dart';
 import 'package:provider_pectice/common/product.dart';
 import 'package:provider_pectice/common/product_tile.dart';
 
-class Cart extends StatelessWidget {
+class Cart extends ConsumerWidget {
   const Cart({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final List<Product> cartProductList = [];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final List<Product> cartProductList = ref.watch(cartProvider);
 
     return Scaffold(
       body: cartProductList.isEmpty
@@ -30,7 +32,7 @@ class Cart extends StatelessWidget {
                 return ProductTile(
                   product: product,
                   isInCart: true,
-                  onPressed: (product) {},
+                  onPressed: ref.read(cartProvider.notifier).onProductPressed,
                 );
               },
             ),
