@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider_pectice/5-cubit/cart.dart';
+import 'package:provider_pectice/5-cubit/state/cart_cubit.dart';
 import 'package:provider_pectice/5-cubit/store.dart';
 import 'package:provider_pectice/common/bottom_bar.dart';
 
@@ -16,23 +18,30 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: IndexedStack(
-        index: currentIndex,
-        children: const [
-          /// Store
-          Store(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => CartCubit(),
+        ),
+      ],
+      child: Scaffold(
+        body: IndexedStack(
+          index: currentIndex,
+          children: const [
+            /// Store
+            Store(),
 
-          /// Cart
-          Cart(),
-        ],
-      ),
-      bottomNavigationBar: BottomBar(
-        currentIndex: currentIndex,
-        cartTotal: "0",
-        onTap: (index) => setState(() {
-          currentIndex = index;
-        }),
+            /// Cart
+            Cart(),
+          ],
+        ),
+        bottomNavigationBar: BottomBar(
+          currentIndex: currentIndex,
+          cartTotal: "0",
+          onTap: (index) => setState(() {
+            currentIndex = index;
+          }),
+        ),
       ),
     );
   }
