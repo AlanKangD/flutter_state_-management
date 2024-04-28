@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider_pectice/1-stateful_wigget/home_page.dart';
+import 'package:provider_pectice/6-bloc/home_page.dart';
 
 void main() {
   runApp(const MyApp());
