@@ -14,14 +14,16 @@ class onProductPressed extends CartEvent {
 }
 
 class CartBloc extends Bloc<CartEvent, List<Product>> {
-  CartBloc() : super([]) {
+  CartBloc() : super(const []) {
     on<onProductPressed>((event, emit) {
-      if (state.contains([event.product])) {
-        state.remove(event.product);
-        emit(state);
+      if (state.contains(event.product)) {
+        // state.remove(event.product);
+        // emit(state);
+        emit(state.where((element) => element != event.product).toList());
       } else {
-        state.add(event.product);
-        emit(state);
+        // state.add(event.product);
+        // emit(state);
+        emit([...state, event.product]);
       }
     });
   }
