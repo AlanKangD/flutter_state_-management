@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider_pectice/6-bloc/state/cart_bloc.dart';
 import 'package:provider_pectice/common/product.dart';
 import 'package:provider_pectice/common/product_tile.dart';
 
@@ -9,6 +11,7 @@ class Store extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final CartBloc cartBloc = context.watch();
     return Scaffold(
       body: ListView.builder(
         itemCount: storeProductList.length,
@@ -16,8 +19,8 @@ class Store extends StatelessWidget {
           Product product = storeProductList[index];
           return ProductTile(
             product: product,
-            isInCart: false,
-            onPressed: (product) {},
+            isInCart: cartBloc.state.contains(product),
+            onPressed: (product) => cartBloc.add(onProductPressed(product)),
           );
         },
       ),
